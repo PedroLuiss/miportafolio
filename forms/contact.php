@@ -39,7 +39,6 @@
 
   // echo $contact->send();
   use PHPMailer\PHPMailer\PHPMailer;
-  use PHPMailer\PHPMailer\Exception;
   
   require './PHPMailer/src/Exception.php';
   require './PHPMailer/src/PHPMailer.php';
@@ -50,22 +49,23 @@
       $mail->isSMTP();
       $mail->SMTPDebug = 2;
       $mail->Host = 'smtp.gmail.com';
-      $mail->Port = 587;
+      $mail->Port = 465;
       $mail->SMTPAuth = true;
-      $mail->SMTPSecure = 'tls';
-      $mail->Username = 'rodriguezrojaspedroluis@gmail.com';
-      $mail->Password = 'your-gmail-password';
-      $mail->setFrom('rodriguezrojaspedroluis@gmail.com', 'Your Name');
+      $mail->SMTPSecure = 'ssl';
+      $mail->Username = 'peluisrodriguez2@gmail.com';
+      $mail->Password = 'fgxzfyjoviizpyhs';
+      $mail->setFrom('peluisrodriguez2@gmail.com', 'Mi Portafolio');
       $mail->addReplyTo($_POST['email'], $_POST['name']);
-      $mail->addAddress('rodriguezrojaspedroluis@gmail.com', 'Your Name');
+      $mail->addAddress('rodriguezrojaspedroluis@gmail.com', 'Pedro Rodriguez');
       $mail->Subject = $_POST['subject'];
       $mail->msgHTML($_POST['message'], __DIR__);
-      $mail->Body = 'This is just a plain text message body';
-      if (!$mail->send()) {
+      $mail->Body = $_POST['message'];
+      if ($mail->send()) {
           echo 'Mailer Error: '. $mail->ErrorInfo;
       } else {
           echo 'The email message was sent.';
       }
+      
   }
 
 ?>
