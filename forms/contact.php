@@ -37,12 +37,12 @@
   // $contact->add_message( $_POST['email'], 'Email');
   // $contact->add_message( $_POST['message'], 'Message', 10);
 
-  // echo $contact->send();
-  use PHPMailer\PHPMailer\PHPMailer;
-  
   require './PHPMailer/src/Exception.php';
   require './PHPMailer/src/PHPMailer.php';
   require './PHPMailer/src/SMTP.php';
+  // echo $contact->send();
+  use PHPMailer\PHPMailer\PHPMailer;
+  
   
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $mail = new PHPMailer;
