@@ -51,6 +51,7 @@
 
   function php_email_form_submit(thisForm, action, formData) {
     console.log("funtion php_email_form_submit");
+    console.log(action);
     fetch(action, {
       method: 'POST',
       body: formData,
