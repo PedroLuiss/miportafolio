@@ -42,30 +42,40 @@
   require './PHPMailer/src/SMTP.php';
   // echo $contact->send();
   use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
   
   
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $mail = new PHPMailer;
-      $mail->isSMTP();
-      $mail->SMTPDebug = 2;
-      $mail->Host = 'smtp.gmail.com';
-      $mail->Port = 465;
-      $mail->SMTPAuth = true;
-      $mail->SMTPSecure = 'ssl';
-      $mail->Username = 'peluisrodriguez2@gmail.com';
-      $mail->Password = 'fgxzfyjoviizpyhs';
-      $mail->setFrom('peluisrodriguez2@gmail.com', 'Mi Portafolio');
-      $mail->addReplyTo($_POST['email'], $_POST['name']);
-      $mail->addAddress('rodriguezrojaspedroluis@gmail.com', 'Pedro Rodriguez');
-      $mail->Subject = $_POST['subject'];
-      $mail->msgHTML($_POST['message'], __DIR__);
-      $mail->Body = $_POST['message'];
-      if ($mail->send()) {
-          echo 'Mailer Error: '. $mail->ErrorInfo;
-      } else {
-          echo 'The email message was sent.';
+  
+      // Crea una nueva instancia de PHPMailer
+      $mail = new PHPMailer(true);
+  
+      try {
+          // Configura el envío a través de SMTP
+          $mail->isSMTP();
+          $mail->SMTPDebug = 2; // Habilita depuración detallada
+          $mail->Host = 'smtp.gmail.com';
+          $mail->Port = 465;
+          $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Habilita TLS/SSL
+          $mail->SMTPAuth = true;
+          $mail->Username = 'peluisrodriguez2@gmail.com';
+          $mail->Password = 'fgxzfyjoviizpyhs';
+  
+          // Configura la información del correo electrónico
+          $mail->setFrom('peluisrodriguez2@gmail.com', 'Mi Portafolio');
+          $mail->addReplyTo($_POST['email'], $_POST['name']);
+          $mail->addAddress('rodriguezrojaspedroluis@gmail.com', 'Pedro Rodriguez');
+          $mail->Subject = $_POST['subject'];
+          $mail->Body = $_POST['message'];
+          $mail->isHTML(true); // Configura el cuerpo como HTML
+  
+          // Envía el correo electrónico
+          $mail->send();
+          echo 'El correo electrónico se envió correctamente.';
+  
+      } catch (Exception $e) {
+          echo 'Error al enviar el correo electrónico: ', $mail->ErrorInfo;
       }
-      
   }
 
 ?>
